@@ -5,7 +5,7 @@ from PIL import Image
 from psd_tools import PSDImage
 
 # 固定 PSD 文件路径
-PSD_FILE = "psds/iPhone17ProMax-DeepBlue-Portrait.psd"
+PSD_FILE = "psd/iPhone17ProMax-DeepBlue-Portrait.psd"
 # 输出目录固定为当前目录下的 output 文件夹
 OUTPUT_DIR = "output"
 
