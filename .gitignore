@@ -98,6 +98,4 @@ venv/
 # app/migrations/
 
 static/
-*.png
-*.jpg
-*.jpeg
+output/

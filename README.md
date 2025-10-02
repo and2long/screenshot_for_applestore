@@ -1,82 +1,94 @@
-# App Store 截屏处理工具
+<p align="center">
+  <img src="docs/logo_snap2store.png" alt="Snap2Store Logo" width="400"/>
+</p>
 
-这个项目专为苹果开发者设计，解决模拟器截屏无法直接用于 App Store 的问题。通过自动添加设备边框并调整到 App Store 要求的尺寸，让你的应用截屏更专业、更符合规范。
+# Snap2Store
 
-## 项目背景
+[中文文档](docs/README_zh.md)
 
-从 iOS 模拟器截取的图片无法直接上传到 App Store，主要问题：
-- ❌ 尺寸不符合 App Store 要求
-- ❌ 缺少设备边框，显示效果不佳
-- ❌ 需要手动处理，效率低下
+Snap2Store is designed for Apple developers to solve the problem that screenshots captured from the iOS simulator cannot be directly used in the App Store.  
+It automatically adds device frames and adjusts to the required dimensions, making your app screenshots more professional and compliant with App Store standards.
 
-本工具一键解决这些问题：
-- ✅ 自动添加真实设备边框
-- ✅ 输出符合 App Store 规范的图片尺寸
-- ✅ 批量处理，提升开发效率
+---
 
-## 依赖要求
+## Background
+
+Screenshots taken from the iOS simulator cannot be uploaded directly to the App Store because:
+- ❌ Sizes do not match App Store requirements  
+- ❌ Missing device frames, resulting in poor presentation  
+- ❌ Manual processing is time-consuming and inefficient  
+
+This tool solves these problems with one command:
+- ✅ Automatically adds real device frames  
+- ✅ Outputs screenshots that meet App Store requirements  
+- ✅ Batch processing for improved developer efficiency  
+
+---
+
+## Requirements
 
 ```bash
 pip install pillow psd-tools
 ```
 
-## 使用方法
+---
 
-### 典型工作流程
+## Usage
 
-1. **从模拟器截屏** - 在 iOS 模拟器中截取应用界面
-2. **运行处理工具** - 使用对应设备的脚本
-3. **获得成品** - 得到符合 App Store 规范的截屏图片
-4. **直接上传** - 可直接用于 App Store Connect
+### Typical Workflow
 
-### iPad 截屏处理
+1. **Capture screenshots** in the iOS simulator  
+2. **Run the processing tool** for the target device  
+3. **Get processed screenshots** with the correct frame and size  
+4. **Upload directly** to App Store Connect  
+
+---
+
+### iPad Screenshots
 
 ```bash
-# 处理单张截图
+# Process a single screenshot
 python ipad_batch.py screenshot.png
 
-# 批量处理文件夹中的所有截图
+# Batch process all screenshots in a folder
 python ipad_batch.py screenshots_folder/
 ```
 
-### iPhone 截屏处理
+---
+
+### iPhone Screenshots
 
 ```bash
-# 处理单张截图
+# Process a single screenshot
 python iphone_batch.py screenshot.png
 
-# 批量处理文件夹中的所有截图
+# Batch process all screenshots in a folder
 python iphone_batch.py screenshots_folder/
 ```
 
-## 输出说明
+---
 
-- 📁 输出文件保存在 `output/` 目录
-- 📝 文件命名格式：`原文件名_framed.jpg`
-- 🎯 **符合 App Store 规范**：尺寸和格式完全符合要求
-- 🖼️ JPEG 质量：85%，启用优化压缩
-- 🎨 自动去除透明通道，转换为 RGB 模式
+## Output
 
-### 输出图片尺寸
+- 📁 Processed files are saved in the `output/` folder  
+- 📝 File naming format: `original_filename_framed.jpg`  
+- 🎯 **App Store compliant**: correct dimensions and format  
+- 🖼️ JPEG quality: 85% with optimized compression  
+- 🎨 Transparency removed, converted to RGB  
 
-- 📱 **iPhone**: 1242 × 2688 像素
-- 📱 **iPad**: 2064 × 2752 像素
+---
 
-这些尺寸完全符合 App Store Connect 的要求，可直接用于应用商店截屏上传。
+### Output Dimensions
 
-## 技术栈
+- 📱 **iPhone**: 1242 × 2688 px  
+- 📱 **iPad**: 2064 × 2752 px  
 
-- **Python 3.x**
-- **Pillow (PIL)**: 图像处理
-- **psd-tools**: PSD 文件解析
+These dimensions fully meet App Store Connect requirements, so the screenshots can be uploaded directly.
 
-## 项目结构
+---
 
-```
-├── psd/iPadPro13-M4-Silver-Portrait.psd     # iPad 设备边框模板
-├── psd/iPhone17ProMax-DeepBlue-Portrait.psd # iPhone 设备边框模板
-├── ipad_batch.py        # iPad 截屏处理器
-├── iphone_batch.py      # iPhone 截屏处理器
-├── output/              # 输出目录（自动创建）
-└── README.md           # 项目说明文档
-```
+## Tech Stack
+
+- **Python 3.x**  
+- **Pillow (PIL)**: image processing  
+- **psd-tools**: PSD file parsing  
