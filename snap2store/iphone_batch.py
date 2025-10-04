@@ -70,10 +70,8 @@ def process_image(screenshot_path, psd_path=PSD_FILE, output_dir=OUTPUT_DIR):
     
     # 2. 最后贴入截屏图片（最顶层），应用 Screen 图层的蒙版
     if screen_layer.mask:
-        print("🎭 检测到 Screen 图层蒙版，正在应用...")
         # 获取蒙版并调整大小
         mask_img = screen_layer.mask.topil().resize((sw, sh), Image.LANCZOS)
-        print(f"蒙版尺寸: {mask_img.size}, 模式: {mask_img.mode}")
         
         # 将截屏应用蒙版后作为最顶层
         masked_screenshot = apply_mask_to_image(screenshot, mask_img)

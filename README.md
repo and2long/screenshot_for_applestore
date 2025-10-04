@@ -25,10 +25,10 @@ This tool solves these problems with one command:
 
 ---
 
-## Requirements
+## Installation
 
 ```bash
-pip install pillow psd-tools
+pip install snap2store
 ```
 
 ---
@@ -44,26 +44,48 @@ pip install pillow psd-tools
 
 ---
 
-### iPad Screenshots
+### CLI Commands
 
 ```bash
-# Process a single screenshot
-python ipad_batch.py screenshot.png
+# Process a single screenshot (auto-detect device type)
+snap2store screenshot.png
 
 # Batch process all screenshots in a folder
-python ipad_batch.py screenshots_folder/
+snap2store screenshots_folder/
+
+# Specify device type (iPhone)
+snap2store -d iphone screenshot.png
+
+# Specify device type (iPad) and custom output directory
+snap2store -d ipad -o custom_output/ screenshot.png
+
+# Show help
+snap2store --help
 ```
 
----
+### Command Options
 
-### iPhone Screenshots
+```
+usage: snap2store [-h] [-d {iphone,ipad}] [-o OUTPUT] [-v] input
 
-```bash
-# Process a single screenshot
-python iphone_batch.py screenshot.png
+Snap2Store - Add device bezels to iOS/iPadOS screenshots to meet App Store requirements
 
-# Batch process all screenshots in a folder
-python iphone_batch.py screenshots_folder/
+positional arguments:
+  input                 Screenshot file or folder path
+
+options:
+  -h, --help            show this help message and exit
+  -d {iphone,ipad}, --device {iphone,ipad}
+                        Specify device type (auto-detect if not provided)
+  -o OUTPUT, --output OUTPUT
+                        Output directory (default: ./output/)
+  -v, --version         show program's version number and exit
+
+Examples:
+  snap2store screenshot.png                  # Auto-detect device type and process single screenshot
+  snap2store screenshots/                    # Process all screenshots in the folder
+  snap2store -d iphone screenshot.png        # Specify as iPhone screenshot
+  snap2store -d ipad -o custom_output/ img/  # Specify as iPad screenshot and custom output directory
 ```
 
 ---
@@ -91,4 +113,4 @@ These dimensions fully meet App Store Connect requirements, so the screenshots c
 
 - **Python 3.x**  
 - **Pillow (PIL)**: image processing  
-- **psd-tools**: PSD file parsing  
+- **psd-tools**: PSD file parsing

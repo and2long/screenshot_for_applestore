@@ -14,10 +14,10 @@
 - ✅ 输出符合 App Store 规范的图片尺寸
 - ✅ 批量处理，提升开发效率
 
-## 依赖要求
+## 安装
 
 ```bash
-pip install pillow psd-tools
+pip install snap2store
 ```
 
 ## 使用方法
@@ -29,24 +29,48 @@ pip install pillow psd-tools
 3. **获得成品** - 得到符合 App Store 规范的截屏图片
 4. **直接上传** - 可直接用于 App Store Connect
 
-### iPad 截屏处理
+### CLI 命令
 
 ```bash
-# 处理单张截图
-python ipad_batch.py screenshot.png
+# 处理单张截图（自动检测设备类型）
+snap2store screenshot.png
 
 # 批量处理文件夹中的所有截图
-python ipad_batch.py screenshots_folder/
+snap2store screenshots_folder/
+
+# 指定设备类型（iPhone）
+snap2store -d iphone screenshot.png
+
+# 指定设备类型（iPad）和自定义输出目录
+snap2store -d ipad -o custom_output/ screenshot.png
+
+# 显示帮助信息
+snap2store --help
 ```
 
-### iPhone 截屏处理
+### 命令选项
 
-```bash
-# 处理单张截图
-python iphone_batch.py screenshot.png
+```
+usage: snap2store [-h] [-d {iphone,ipad}] [-o OUTPUT] [-v] input
 
-# 批量处理文件夹中的所有截图
-python iphone_batch.py screenshots_folder/
+Snap2Store - Add device bezels to iOS/iPadOS screenshots to meet App Store requirements
+
+positional arguments:
+  input                 Screenshot file or folder path
+
+options:
+  -h, --help            show this help message and exit
+  -d {iphone,ipad}, --device {iphone,ipad}
+                        Specify device type (auto-detect if not provided)
+  -o OUTPUT, --output OUTPUT
+                        Output directory (default: ./output/)
+  -v, --version         show program's version number and exit
+
+Examples:
+  snap2store screenshot.png                  # Auto-detect device type and process single screenshot
+  snap2store screenshots/                    # Process all screenshots in the folder
+  snap2store -d iphone screenshot.png        # Specify as iPhone screenshot
+  snap2store -d ipad -o custom_output/ img/  # Specify as iPad screenshot and custom output directory
 ```
 
 ## 输出说明

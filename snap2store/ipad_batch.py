@@ -4,8 +4,9 @@ import sys
 from PIL import Image
 from psd_tools import PSDImage
 
-# 固定 PSD 文件路径
-PSD_FILE = "psd/iPadPro13-M4-Silver-Portrait.psd"
+# 固定 PSD 文件路径，始终以项目根目录为基准
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PSD_FILE = os.path.join(BASE_DIR, "psd", "iPadPro13-M4-Silver-Portrait.psd")
 # 输出目录固定为当前目录下的 output 文件夹
 OUTPUT_DIR = "output"
 
