@@ -4,24 +4,27 @@ import sys
 from PIL import Image
 from psd_tools import PSDImage
 
-# 固定 PSD 文件路径
-PSD_FILE = "psd/iPhone17ProMax-DeepBlue-Portrait.psd"
+# 固定 PSD 文件路径，始终以项目根目录为基准
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PSD_FILE = os.path.join(BASE_DIR, "psd", "iPhone17ProMax-DeepBlue-Portrait.psd")
 # 输出目录固定为当前目录下的 output 文件夹
 OUTPUT_DIR = "output"
+
 
 def apply_mask_to_image(image, mask):
     """将蒙版应用到图片上 - 简化版本"""
     if mask.mode != "L":
         mask = mask.convert("L")
-    
+
     # 将图片转换为 RGBA
     image_rgba = image.convert("RGBA")
-    
+
     # 使用蒙版作为 alpha 通道
     r, g, b, _ = image_rgba.split()
     masked_image = Image.merge("RGBA", (r, g, b, mask))
-    
+
     return masked_image
+
 
 def process_image(screenshot_path, psd_path=PSD_FILE, output_dir=OUTPUT_DIR):
     """处理单张截图并生成带边框的 JPEG 图片"""
@@ -64,15 +67,15 @@ def process_image(screenshot_path, psd_path=PSD_FILE, output_dir=OUTPUT_DIR):
         canvas = Image.new("RGBA", canvas_size, (255, 255, 255, 255))
 
     # 正确的图层顺序：Background -> Hardware -> 截屏(带蒙版)
-    
+
     # 1. 先贴入 Hardware 图层（在截屏之下）
     canvas.alpha_composite(hw_img, dest=(hw_box[0], hw_box[1]))
-    
+
     # 2. 最后贴入截屏图片（最顶层），应用 Screen 图层的蒙版
     if screen_layer.mask:
         # 获取蒙版并调整大小
         mask_img = screen_layer.mask.topil().resize((sw, sh), Image.LANCZOS)
-        
+
         # 将截屏应用蒙版后作为最顶层
         masked_screenshot = apply_mask_to_image(screenshot, mask_img)
         canvas.alpha_composite(masked_screenshot, dest=(sc_box[0], sc_box[1]))
@@ -95,6 +98,7 @@ def process_image(screenshot_path, psd_path=PSD_FILE, output_dir=OUTPUT_DIR):
     final_image.save(output_path, "JPEG", quality=85, optimize=True)
     return output_path
 
+
 def main(input_path):
     if not os.path.exists(PSD_FILE):
         print(f"❌ PSD 文件不存在: {PSD_FILE}")
@@ -109,7 +113,11 @@ def main(input_path):
         out = process_image(input_path)
         print(f"✅ 输出: {out}")
     elif os.path.isdir(input_path):
-        files = [f for f in os.listdir(input_path) if f.lower().endswith((".png", ".jpg", ".jpeg"))]
+        files = [
+            f
+            for f in os.listdir(input_path)
+            if f.lower().endswith((".png", ".jpg", ".jpeg"))
+        ]
         total = len(files)
         if total == 0:
             print("❌ 文件夹中没有截图文件")
@@ -123,6 +131,7 @@ def main(input_path):
         print("🎉 批量处理完成")
     else:
         print("❌ 输入路径不存在")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

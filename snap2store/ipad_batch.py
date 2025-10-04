@@ -10,6 +10,7 @@ PSD_FILE = os.path.join(BASE_DIR, "psd", "iPadPro13-M4-Silver-Portrait.psd")
 # 输出目录固定为当前目录下的 output 文件夹
 OUTPUT_DIR = "output"
 
+
 def process_image(screenshot_path, psd_path=PSD_FILE, output_dir=OUTPUT_DIR):
     """处理单张截图并生成带边框的 JPEG 图片"""
     # 打开 PSD
@@ -45,7 +46,11 @@ def process_image(screenshot_path, psd_path=PSD_FILE, output_dir=OUTPUT_DIR):
 
     # 创建画布
     canvas_size = psd.size
-    canvas = bg_img.copy() if bg_img else Image.new("RGBA", canvas_size, (255, 255, 255, 255))
+    canvas = (
+        bg_img.copy()
+        if bg_img
+        else Image.new("RGBA", canvas_size, (255, 255, 255, 255))
+    )
 
     # 贴入截图
     canvas.paste(screenshot, (sc_box[0], sc_box[1]), screenshot)
@@ -66,6 +71,7 @@ def process_image(screenshot_path, psd_path=PSD_FILE, output_dir=OUTPUT_DIR):
     final_image.save(output_path, "JPEG", quality=85, optimize=True)
     return output_path
 
+
 def main(input_path):
     if not os.path.exists(PSD_FILE):
         print(f"❌ PSD 文件不存在: {PSD_FILE}")
@@ -80,7 +86,11 @@ def main(input_path):
         out = process_image(input_path)
         print(f"✅ 输出: {out}")
     elif os.path.isdir(input_path):
-        files = [f for f in os.listdir(input_path) if f.lower().endswith((".png", ".jpg", ".jpeg"))]
+        files = [
+            f
+            for f in os.listdir(input_path)
+            if f.lower().endswith((".png", ".jpg", ".jpeg"))
+        ]
         total = len(files)
         if total == 0:
             print("❌ 文件夹中没有截图文件")
@@ -94,6 +104,7 @@ def main(input_path):
         print("🎉 批量处理完成")
     else:
         print("❌ 输入路径不存在")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
